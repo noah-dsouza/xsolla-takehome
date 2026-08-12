@@ -35,6 +35,13 @@ async function main() {
     return;
   }
 
+  // Only markdown output implemented, fail clearly instead of ignoring --format json and producing markdown anyway.
+  if (args.format && args.format !== "markdown") {
+    console.error(`Unsupported format "${args.format}". Only "markdown" is currently supported.`);
+    process.exitCode = 1;
+    return;
+  }
+
   const report = await reviewRepository({
     repositoryPath: args.repositoryPath,
     baseRef: args.baseRef,
