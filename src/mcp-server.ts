@@ -10,7 +10,9 @@ server.tool(
   "review_repository",
   "Inspects a Git repository and returns a review report.",
   {
-    repo_path: z.string().describe("Repository path to inspect."),
+    // Field names dont match input making repo path undefined for anyone calling tool
+    // Correct repo_path to repoPath to match input field name
+    repoPath: z.string().describe("Repository path to inspect."),
     baseRef: z.string().optional(),
     validationCommands: z.array(z.string()).optional(),
   },
