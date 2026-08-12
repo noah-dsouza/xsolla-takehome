@@ -5,7 +5,10 @@ export function runValidation(command: string, cwd: string): Promise<ValidationR
   return new Promise((resolve, reject) => {
     exec(command, { cwd }, (error, stdout, stderr) => {
       if (error) {
-        reject(error);
+        // Failed validations are normal and we want them reported back instead of crashing the entire review
+        // In og code, any errors/ failures  rejected the promise and killed core.ts/ the entire review. 
+        // Want reports of failed validations reported back to user to fix and re run to confirm ced fix. 
+        resolve({ command, status: "failed", output: stdout || stderr || error.message });
         return;
       }
       resolve({ command, status: "passed", output: stdout || stderr });
